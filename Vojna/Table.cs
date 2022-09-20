@@ -164,7 +164,7 @@ namespace Vojna {
             } else if (player1.PlayedCardValue < player2.PlayedCardValue) {
                 return player2;
             } else {
-                return null; //NEMUZE VRACET NULL, MUSIM OPRAVIT
+                return null; //NEMUZE VRACET NULL, OPRAVIT
             }
         }
         public Player GetRoundLooser() {
