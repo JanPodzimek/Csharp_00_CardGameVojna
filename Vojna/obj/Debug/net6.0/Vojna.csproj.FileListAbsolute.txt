@@ -1,0 +1,15 @@
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/bin/Debug/net6.0/Vojna
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/bin/Debug/net6.0/Vojna.deps.json
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/bin/Debug/net6.0/Vojna.runtimeconfig.json
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/bin/Debug/net6.0/Vojna.dll
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/bin/Debug/net6.0/Vojna.pdb
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/Vojna.csproj.AssemblyReference.cache
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/Vojna.GeneratedMSBuildEditorConfig.editorconfig
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/Vojna.AssemblyInfoInputs.cache
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/Vojna.AssemblyInfo.cs
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/Vojna.csproj.CoreCompileInputs.cache
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/Vojna.dll
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/refint/Vojna.dll
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/Vojna.pdb
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/Vojna.genruntimeconfig.cache
+/Users/janpodzimek/01_C#_JAVA_VB/C#/Vojna/Vojna/obj/Debug/net6.0/ref/Vojna.dll
