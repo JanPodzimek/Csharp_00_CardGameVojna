@@ -126,7 +126,8 @@ namespace Vojna {
             } while (!OK);
         }
         /// <summary>
-        /// Sets players game button whitch is used to move one step forward when its players turn.
+        /// Sets players game button which is used to move one step forward when its players turn.
+        /// Button has to be different for both players.
         /// </summary>
         /// <param name="player"></param>
         public void SetPlayersGameButton(Player player) {
@@ -137,9 +138,9 @@ namespace Vojna {
                 Console.Write(message);
                 try {
                     ConsoleKeyInfo gameButton = Console.ReadKey(true);
-                    //if (player.Number == 2 && gameButton == player1.GameButton)
-                    //    throw new FormatException($"\nPlayer {player.Name} cannot have the " +
-                    //        $"SAME game button as {player1.Name}.\n");
+                    if (player.Number == 2 && gameButton == player1.GameButton)
+                        throw new FormatException($"\nPlayer {player.Name} cannot have the " +
+                            $"SAME game button as {player1.Name}.\n");
                     player.GameButton = gameButton;
                     message = $"\nGame button for player {player.Name} is set to " +
                         $"\"{gameButton.KeyChar.ToString().ToUpper()}\"\n" +
