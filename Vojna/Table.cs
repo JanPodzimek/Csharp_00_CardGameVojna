@@ -35,7 +35,6 @@ namespace Vojna {
             } while (player1.CurrentCards > 0 && player2.CurrentCards > 0);
         }
         public void Round() {
-            bool enoughCardsInHand;
             PlayCard(player1); // each player pick one random card from their hand
             PlayCard(player2);
             RoundResultAnnoucement();
@@ -45,8 +44,7 @@ namespace Vojna {
                 CheckWinner();
                 AnnoucCurrentScore(); // actual score is showed in console
             } else {
-                enoughCardsInHand = CheckScore(); //checks whether each player has at least one more card
-                if (enoughCardsInHand) {
+                if (CheckScore()) {  //checks whether each player has at least one more card
                     SetCardsOnTheTable(player1); // add already played card to special list with played cards, for later addition to winners hand after the round will end
                     SetCardsOnTheTable(player2); // same for player2
                     ExtraRound(player1, player2, GetAvaliableNumberOfRounds()); // extra round after a draw in the previous round, number of showed cards in extra round can be set from 1 to 3, depends on how many cards do have the players left
@@ -54,24 +52,22 @@ namespace Vojna {
                     if (!CheckDraw()) { // if extra round have its winner, round ends and points and cards are divided between players
                         AddAllLoosersCardsOnTheTableToWinnersHand(); // all cards played in round and extra round are added to winners hand
                         RemoveAllLoosersCardOnTheTableFromLoosersHand(); // opposite for the looser
-                        CheckWinner();
+                        CheckWinner(); // if score of anyone is 0, winner is announced
                         AnnoucCurrentScore();
                     } else {
-                        enoughCardsInHand = CheckScore();
-                        if (enoughCardsInHand) {
-                            PlayCard(player1);
+                        if (CheckScore()) { //checks whether each player has at least one more card
+                            PlayCard(player1); // each player pick one random card from their hand
                             PlayCard(player2);
-                            SetCardsOnTheTable(player1);
+                            SetCardsOnTheTable(player1); // add already played card to special list with played cards, for later addition to winners hand after the round will end
                             SetCardsOnTheTable(player2);
                             ExtraRoundResultAnnoucementWithDice();
                             if (!CheckDraw()) {
-                                AddAllLoosersCardsOnTheTableToWinnersHand();
+                                AddAllLoosersCardsOnTheTableToWinnersHand(); // all cards played in round and extra round are added to winners hand
                                 RemoveAllLoosersCardOnTheTableFromLoosersHand();
-                                CheckWinner();
                                 AnnoucCurrentScore();
                             } else {
                                 DiceDecision();
-                                AddAllLoosersCardsOnTheTableToWinnersHand();
+                                AddAllLoosersCardsOnTheTableToWinnersHand(); 
                                 RemoveAllLoosersCardOnTheTableFromLoosersHand();
                                 CheckWinner();
                                 AnnoucCurrentScore();
@@ -88,6 +84,10 @@ namespace Vojna {
 //====================================================================================================================
 //                                              BEFORE THE GAME
 //====================================================================================================================
+        /// <summary>
+        /// Divides deck of 32 cards between two players and gives them both of 16 unique cards
+        /// </summary>
+        /// <param name="deck"></param>
         public void DealTheCards(DeckOfCards deck) {
             List<Card> handP1 = new List<Card>(player1.CurrentCards);
             List<Card> handP2 = new List<Card>(player2.CurrentCards);
@@ -101,6 +101,10 @@ namespace Vojna {
             player1.Hand = handP1;
             player2.Hand = handP2;
         }
+        /// <summary>
+        /// Sets players name. Name cannot be an empty string.
+        /// </summary>
+        /// <param name="player"></param>
         public void SetPlayersName(Player player) {
             bool OK;
             do {
@@ -121,6 +125,10 @@ namespace Vojna {
                 }
             } while (!OK);
         }
+        /// <summary>
+        /// Sets players game button whitch is used to move one step forward when its players turn.
+        /// </summary>
+        /// <param name="player"></param>
         public void SetPlayersGameButton(Player player) {
             bool OK;
             do {
@@ -152,12 +160,20 @@ namespace Vojna {
 //====================================================================================================================
 //                                                BASIC ROUND
 //====================================================================================================================
+        /// <summary>
+        /// Picks one random card from current players pack. Cards value and suit are stored.
+        /// </summary>
+        /// <param name="player"></param>
         public void PlayCard(Player player) {
             Card card = player.Hand[player.ChooseRandomCardFromPack()];
             player.PlayedCardValue = card.Value;
             player.PlayedCardSuit = card.Suit;
             AnnoucPlayedCards(player);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>returns the winner of the round</returns>
         public Player GetRoundWinner() {
             if (player1.PlayedCardValue > player2.PlayedCardValue) {
                 return player1;
@@ -165,6 +181,10 @@ namespace Vojna {
                 return player2;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>returns the looser of the round</returns>
         public Player GetRoundLooser() {
             if (player1.PlayedCardValue < player2.PlayedCardValue) {
                 return player1;
@@ -172,6 +192,10 @@ namespace Vojna {
                 return player2;
             }
         }
+        /// <summary>
+        /// checks round result
+        /// </summary>
+        /// <returns>if round ends in draw, returns true, else returns false</returns>
         public bool CheckDraw() {
             return player1.PlayedCardValue == player2.PlayedCardValue ? true : false;
         }
@@ -181,7 +205,10 @@ namespace Vojna {
             else
                 return false;
         }
-        
+        /// <summary>
+        /// supportive method for decision how many cards should be showed in extra round when its draw
+        /// </summary>
+        /// <returns>returns 3 if both players have at least 3 cards, 2 if both players have at least 2 cards and so on</returns>
         public int GetAvaliableNumberOfRounds() {
             if (player1.CurrentCards >= 3 && player2.CurrentCards >= 3)
                 return 3;
@@ -195,6 +222,10 @@ namespace Vojna {
 //====================================================================================================================
 //                                                EXTRA ROUND
 //====================================================================================================================
+        /// <summary>
+        /// chooses unique cards from players hand that can be played including played cards in current round  
+        /// </summary>
+        /// <param name="player"></param>
         public void PlayCardInExtraRound(Player player) {
             Card card;
             bool OK;
@@ -211,6 +242,12 @@ namespace Vojna {
             message = $"{player.GetReadableValueOfCard()}";
             Console.WriteLine(message);
         }
+        /// <summary>
+        /// in case of draw extra round runs and players show number of cards depending on round parameter
+        /// </summary>
+        /// <param name="player1"></param>
+        /// <param name="player2"></param>
+        /// <param name="rounds"></param>
         public void ExtraRound(Player player1, Player player2, int rounds) {
             message = $"\n{player1.Name} plays...";
             Console.WriteLine(message);
@@ -235,9 +272,17 @@ namespace Vojna {
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns>return int in scope of dice</returns>
         public int ThrowTheDice(Player player) {
             return dice.ThrowDice();
         }
+        /// <summary>
+        /// both players throw dice as long as one of them is winner or do not have any card
+        /// </summary>
         public void DiceDecision() {
             int throw1; 
             int throw2;
@@ -259,12 +304,18 @@ namespace Vojna {
 //====================================================================================================================
 //                                          ADDING / REMOVING CARDS
 //====================================================================================================================
+        /// <summary>
+        /// card that played player who lost the round is moved into winners pack
+        /// </summary>
         public void AddLoosersCardToWinnersHand() {
             Player winner = GetRoundWinner();
             Player looser = GetRoundLooser();
             winner.Hand.Add(new Card(looser.PlayedCardValue, looser.PlayedCardSuit));
             winner.CurrentCards++;
         }
+        /// <summary>
+        /// cards that played player who lost the round, includes the extra round, is moved into winners pack
+        /// </summary>
         public void AddAllLoosersCardsOnTheTableToWinnersHand() {
             Player winner = GetRoundWinner();
             Player looser = GetRoundLooser();
@@ -276,6 +327,9 @@ namespace Vojna {
             winner.CurrentCards += looser.CardsOnTheTable.Count;
             winner.CardsOnTheTable.Clear();
         }
+        /// <summary>
+        /// card that played player who lost the round is removed from his pack
+        /// </summary>
         public void RemoveLoosersCardFromLoosersHand() {
             Player looser = GetRoundLooser();
             foreach (Card c in looser.Hand) {
@@ -286,6 +340,9 @@ namespace Vojna {
                 }
             }
         }
+        /// <summary>
+        /// cards that played player who lost the round is removed from his pack, includes cards in extra round
+        /// </summary>
         public void RemoveAllLoosersCardOnTheTableFromLoosersHand() {
             Player looser = GetRoundLooser();
             //Player looser = player1;
@@ -300,6 +357,10 @@ namespace Vojna {
             looser.CurrentCards -= looser.CardsOnTheTable.Count;
             looser.CardsOnTheTable.Clear();
         }
+        /// <summary>
+        /// in case of extra round, card from first round is add into the list of cards that are played for further use
+        /// </summary>
+        /// <param name="player"></param>
         public void SetCardsOnTheTable(Player player) {
             player.CardsOnTheTable.Add(new Card(player.PlayedCardValue, player.PlayedCardSuit));
         }
@@ -384,28 +445,34 @@ namespace Vojna {
             Console.WriteLine(message);
         }
         public void ExtraRoundResultAnnoucementWith3ExtraRounds() {
-            if (GetRoundWinner() == player1)
-                ExtraRoundWinner(player1);
-            else if (GetRoundWinner() == player2)
-                ExtraRoundWinner(player2);
-            else
+            if (CheckDraw())
                 ExtraRoundDrawWithUpTo3Cards();
+            else {
+                if (GetRoundWinner() == player1)
+                    RoundWinner(player1);
+                else if (GetRoundWinner() == player2)
+                    RoundWinner(player2);
+            }
         }
         public void ExtraRoundResultAnnoucementWith1ExtraRound() {
-            if (GetRoundWinner().Name == player1.Name)
-                ExtraRoundWinner(player1);
-            else if (GetRoundWinner().Name == player2.Name)
-                ExtraRoundWinner(player2);
-            else
+            if (CheckDraw())
                 ExtraRoundDrawWith1Card();
+            else {
+                if (GetRoundWinner() == player1)
+                    RoundWinner(player1);
+                else if (GetRoundWinner() == player2)
+                    RoundWinner(player2);
+            }
         }
         public void ExtraRoundResultAnnoucementWithDice() {
-            if (GetRoundWinner() == player1)
-                ExtraRoundWinner(player1);
-            else if (GetRoundWinner() == player2)
-                ExtraRoundWinner(player2);
-            else
+            if (CheckDraw())
                 AnnoucDiceDecision();
+            else {
+                if (GetRoundWinner() == player1)
+                    RoundWinner(player1);
+                else if (GetRoundWinner() == player2)
+                    RoundWinner(player2);
+            }
         }
         public void StartTheGame() {
             message = $"Now, press ANY key and let's start playing VOJNA.\n";
