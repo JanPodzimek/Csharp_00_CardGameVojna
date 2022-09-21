@@ -39,7 +39,7 @@ namespace Vojna {
             PlayCard(player1); // each player pick one random card from their hand
             PlayCard(player2);
             RoundResultAnnoucement();
-            if (GetRoundWinner() != null) { // if cards are not equal, round ends and points are divided
+            if (!CheckDraw()) { // if cards are not equal, round ends and points are divided
                 AddLoosersCardToWinnersHand(); // +card to winners hand
                 RemoveLoosersCardFromLoosersHand(); // -card from loosers hand,
                 CheckWinner();
@@ -51,7 +51,7 @@ namespace Vojna {
                     SetCardsOnTheTable(player2); // same for player2
                     ExtraRound(player1, player2, GetAvaliableNumberOfRounds()); // extra round after a draw in the previous round, number of showed cards in extra round can be set from 1 to 3, depends on how many cards do have the players left
                     ExtraRoundResultAnnoucementWith1ExtraRound();
-                    if (GetRoundWinner() != null) { // if extra round have its winner, round ends and points and cards are divided between players
+                    if (!CheckDraw()) { // if extra round have its winner, round ends and points and cards are divided between players
                         AddAllLoosersCardsOnTheTableToWinnersHand(); // all cards played in round and extra round are added to winners hand
                         RemoveAllLoosersCardOnTheTableFromLoosersHand(); // opposite for the looser
                         CheckWinner();
@@ -64,7 +64,7 @@ namespace Vojna {
                             SetCardsOnTheTable(player1);
                             SetCardsOnTheTable(player2);
                             ExtraRoundResultAnnoucementWithDice();
-                            if (GetRoundWinner() != null) {
+                            if (!CheckDraw()) {
                                 AddAllLoosersCardsOnTheTableToWinnersHand();
                                 RemoveAllLoosersCardOnTheTableFromLoosersHand();
                                 CheckWinner();
@@ -161,10 +161,8 @@ namespace Vojna {
         public Player GetRoundWinner() {
             if (player1.PlayedCardValue > player2.PlayedCardValue) {
                 return player1;
-            } else if (player1.PlayedCardValue < player2.PlayedCardValue) {
-                return player2;
             } else {
-                return null; //NEMUZE VRACET NULL, OPRAVIT
+                return player2;
             }
         }
         public Player GetRoundLooser() {
@@ -173,6 +171,9 @@ namespace Vojna {
             } else {
                 return player2;
             }
+        }
+        public bool CheckDraw() {
+            return player1.PlayedCardValue == player2.PlayedCardValue ? true : false;
         }
         public bool CheckScore() {
             if (player1.CurrentCards >= 1 && player2.CurrentCards >= 1)
@@ -306,12 +307,14 @@ namespace Vojna {
 //                                                 ANNOUNCEMENTS
 //====================================================================================================================
         public void RoundResultAnnoucement() {
-            if (GetRoundWinner() == player1)
-                RoundWinner(player1);
-            else if (GetRoundWinner() == player2)
-                RoundWinner(player2);
-            else
+            if (CheckDraw())
                 RoundDraw();
+            else {
+                if (GetRoundWinner() == player1)
+                    RoundWinner(player1);
+                else if (GetRoundWinner() == player2)
+                    RoundWinner(player2);
+            }
         }
         public void AnnoucPlayedCards(Player player) {
             message = $"{player.Name} plays...";
