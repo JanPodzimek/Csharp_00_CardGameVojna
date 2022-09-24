@@ -26,14 +26,6 @@ namespace Vojna {
             }
             return package.ToArray();
         }
-        //public Card[] getPackage() {
-        //    List<Card> package = new List<Card>(AMOUNT_OF_CARDS);
-        //    for (int i = 0; i < AMOUNT_OF_CARDS; i++) {
-        //        Card card = new Card(7, 2);
-        //        package.Add(card);
-        //    }
-        //    return package.ToArray();
-        //}
     }
 }
 

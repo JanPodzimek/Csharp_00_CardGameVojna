@@ -45,14 +45,14 @@ namespace Vojna {
         public string GetReadableValueOfCard(int value, int suit) {
             string stringValue = "", stringSuit = "";
             switch (value) {
-                case 7: stringValue = "7"; break;
-                case 8: stringValue = "8"; break;
-                case 9: stringValue = "9"; break;
-                case 10: stringValue = "10"; break;
-                case 11: stringValue = "J"; break;
-                case 12: stringValue = "Q"; break;
-                case 13: stringValue = "K"; break;
-                case 14: stringValue = "A"; break;
+                case 7: stringValue = "\"7\""; break;
+                case 8: stringValue = "\"8\""; break;
+                case 9: stringValue = "\"9\""; break;
+                case 10: stringValue = "\"10\""; break;
+                case 11: stringValue = "\"Jack\""; break;
+                case 12: stringValue = "\"Queen\""; break;
+                case 13: stringValue = "\"King\""; break;
+                case 14: stringValue = "\"Ace\""; break;
                 default: break;
             }
             switch (suit) {

@@ -28,8 +28,6 @@ namespace Vojna {
             SetPlayersGameButton(player2);
             DealTheCards(deckOfCards);
             StartTheGame();
-            Console.ReadKey(true);
-            Console.Clear();
             do {
                 Round();
                 Console.ReadKey(true);
@@ -436,35 +434,19 @@ namespace Vojna {
             message = $"\n{player.Name} won the EXTRA round and takes all played cards.";
             Console.WriteLine(message);
         }
-
-        public void ExtraRoundDrawWithUpTo3Cards() {
-            message = $"\nUnbelievable, there is another draw!" +
-                $"\nEach player will show {GetAvaliableNumberOfRounds()} more card.\n";
-            Console.WriteLine(message);
-        }
-        public void ExtraRoundDrawWith1Card() {
+        public void ExtraRoundDraw() {
             message = $"\nUnbelievable, there is another draw!" +
                 $"\nEach player will show 1 more final card.\n";
             Console.WriteLine(message);
         }
-        public void ExtraRoundResultAnnoucementWith3ExtraRounds() {
-            if (CheckDraw())
-                ExtraRoundDrawWithUpTo3Cards();
-            else {
-                if (GetRoundWinner() == player1)
-                    RoundWinner(player1);
-                else if (GetRoundWinner() == player2)
-                    RoundWinner(player2);
-            }
-        }
         public void ExtraRoundResultAnnoucementWith1ExtraRound() {
             if (CheckDraw())
-                ExtraRoundDrawWith1Card();
+                ExtraRoundDraw();
             else {
                 if (GetRoundWinner() == player1)
-                    RoundWinner(player1);
+                    ExtraRoundWinner(player1);
                 else if (GetRoundWinner() == player2)
-                    RoundWinner(player2);
+                    ExtraRoundWinner(player2);
             }
         }
         public void ExtraRoundResultAnnoucementWithDice() {
@@ -472,14 +454,16 @@ namespace Vojna {
                 AnnoucDiceDecision();
             else {
                 if (GetRoundWinner() == player1)
-                    RoundWinner(player1);
+                    ExtraRoundWinner(player1);
                 else if (GetRoundWinner() == player2)
-                    RoundWinner(player2);
+                    ExtraRoundWinner(player2);
             }
         }
         public void StartTheGame() {
             message = $"Now, press ANY key and let's start playing VOJNA.\n";
             Console.WriteLine(message);
+            Console.ReadKey(true);
+            Console.Clear();
         }
         public void WelcomeScreen() {
             message = @"
