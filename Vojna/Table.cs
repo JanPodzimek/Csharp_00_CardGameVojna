@@ -29,6 +29,7 @@ namespace Vojna {
             DealTheCards(deckOfCards);
             StartTheGame();
             Console.ReadKey(true);
+            Console.Clear();
             do {
                 Round();
                 Console.ReadKey(true);
